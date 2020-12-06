@@ -51,7 +51,7 @@ export const getUsers = async (req: Request, res: Response): Promise<Response | 
     try {
         await User.find()
         .then((docs) => {
-            res.status(200).send(docs)
+            res.send(docs)
         })
     } catch(err) {
         return res.status(400).send({ error: err })
