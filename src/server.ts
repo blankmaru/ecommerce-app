@@ -68,7 +68,7 @@ passport.deserializeUser(async (id: string, done) => {
 
 app.use('/api/users', userRoutes)
 
-app.get('/', (req, res) => {
+app.get('/page', (req, res) => {
     res.send('<h3>Page</h3>')
 });
 
