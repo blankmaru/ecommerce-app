@@ -1,0 +1,1 @@
+export const mongoURI = 'mongodb+srv://dbUser:jzQNJyg2ZbhEw9j@dbecommerce.ckpps.mongodb.net/<dbname>?retryWrites=true&w=majority'
