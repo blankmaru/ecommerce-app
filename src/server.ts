@@ -7,7 +7,6 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import bcrypt from 'bcryptjs'
 import mongoose from 'mongoose'
-import path from 'path'
 
 const app = express()
 import * as dotenv from "dotenv";
@@ -67,6 +66,10 @@ passport.deserializeUser(async (id: string, done) => {
 })
 
 app.use('/api/users', userRoutes)
+
+app.get('/', (req, res) => {
+    res.send([{  }])
+})
 
 const port = process.env.PORT || 5000
 
