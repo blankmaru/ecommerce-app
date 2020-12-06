@@ -68,7 +68,10 @@ passport.deserializeUser(async (id: string, done) => {
 app.use('/api/users', userRoutes)
 
 app.get('/', (req, res) => {
-    res.send([{  }])
+    User.find()
+        .then((docs) => {
+            res.send(docs)
+        })
 })
 
 const port = process.env.PORT || 5000
