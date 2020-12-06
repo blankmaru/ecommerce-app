@@ -52,7 +52,9 @@ export const getUsers = async (req: Request, res: Response): Promise<Response | 
         await User.find()
         .then((docs) => {
             res.send(docs)
+            console.log(docs)
         })
+        return res.send([{ id: 2, name: 'Geddoku '}])
     } catch(err) {
         return res.status(400).send({ error: err })
     }
