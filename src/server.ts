@@ -5,8 +5,11 @@ import passport from 'passport'
 import passportLocal from 'passport-local'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
-import bcrypt from 'bcryptjs'
 import mongoose from 'mongoose'
+import {promisify} from 'util'
+
+import responseTime from 'response-time'
+import redis from 'redis'
 
 const app = express()
 import * as dotenv from "dotenv";
@@ -28,6 +31,14 @@ app.use(function(req, res, next) {
     next();
 });
 
+const client = redis.createClient({
+    host: '127.0.0.1',
+    port: 6379
+})
+export const GET_ASYNC = promisify(client.get).bind(client)
+export const SET_ASYNC = promisify(client.set).bind(client)
+
+app.use(responseTime())
 app.use(json())
 app.use(cors())
 app.use(express.urlencoded({ extended: false }))
@@ -66,13 +77,6 @@ passport.deserializeUser(async (id: string, done) => {
 })
 
 app.use('/api/users', userRoutes)
-
-app.get('/', (req, res) => {
-    User.find()
-        .then((docs) => {
-            res.send(docs)
-        })
-})
 
 const port = process.env.PORT || 5000
 
