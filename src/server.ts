@@ -33,8 +33,8 @@ app.use(function(req, res, next) {
 });
 
 const client = redis.createClient({
-    host: '46.101.166.66',
-    port: 6379
+    host: 'redis-do-user-8407271-0.b.db.ondigitalocean.com',
+    port: 25061
 })
 export const GET_ASYNC = promisify(client.get).bind(client)
 export const SET_ASYNC = promisify(client.set).bind(client)
