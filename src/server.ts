@@ -10,6 +10,7 @@ import {promisify} from 'util'
 
 import responseTime from 'response-time'
 import redis from 'redis'
+const RedisStore = require('connect-redis')(session)
 
 const app = express()
 import * as dotenv from "dotenv";
@@ -45,6 +46,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(
     session({
+        store: new RedisStore({client: client}),
         secret: process.env.secretcode || 'secret',
         resave: true,
         saveUninitialized: true
