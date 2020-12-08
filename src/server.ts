@@ -33,7 +33,7 @@ app.use(function(req, res, next) {
 });
 
 const client = redis.createClient({
-    host: '127.0.0.1',
+    host: '46.101.166.66',
     port: 6379
 })
 export const GET_ASYNC = promisify(client.get).bind(client)
