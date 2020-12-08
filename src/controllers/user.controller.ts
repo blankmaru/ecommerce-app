@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
 import User from '../models/user.model'
 
-// import { GET_ASYNC, SET_ASYNC } from '../server'
+import { GET_ASYNC, SET_ASYNC } from '../server'
 
 export const register = async (req: Request, res: Response): Promise<Response | undefined> => {
     try {
@@ -51,14 +51,14 @@ export const logOut = async (req: Request, res: Response): Promise<Response | un
 
 export const getUsers = async (req: Request, res: Response): Promise<Response | undefined> => {
     try {
-        // const reply = await GET_ASYNC('users')
-        // if (reply) {
-        //     res.send(JSON.parse(reply))
-        //     return
-        // }
+        const reply = await GET_ASYNC('users')
+        if (reply) {
+            res.send(JSON.parse(reply))
+            return
+        }
         await User.find()
         .then(async (docs) => {
-            // const saveResult = await SET_ASYNC('users', JSON.stringify(docs))
+            const saveResult = await SET_ASYNC('users', JSON.stringify(docs))
             res.send(docs)
         })
     } catch(err) {
