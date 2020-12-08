@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import User from '../models/user.model'
 
 import { GET_ASYNC, SET_ASYNC } from '../server'
+import { logger } from '../log/logger'
 
 export const register = async (req: Request, res: Response): Promise<Response | undefined> => {
     try {
@@ -26,6 +27,7 @@ export const register = async (req: Request, res: Response): Promise<Response | 
                 }
             })
     } catch(err) {
+        logger.error({ error: err })
         return res.status(400).json({ error: err })
     }
 }
@@ -34,6 +36,7 @@ export const login = async (req: Request, res: Response): Promise<Response | und
     try {
         return res.status(200).json({ auth: true })
     } catch(err) {
+        logger.error({ error: err })
         return res.status(400).json({ error: err })
     }
 }
@@ -62,6 +65,30 @@ export const getUsers = async (req: Request, res: Response): Promise<Response | 
             res.send(docs)
         })
     } catch(err) {
+        logger.error({ error: err })
         return res.status(400).send({ error: err })
+    }
+}
+
+export const updateUserById = async (req: Request, res: Response): Promise<Response | undefined> => {
+    try {
+        await User.findByIdAndUpdate(req.params.id, req?.body).then( async (doc) => {
+            await doc?.save()
+            return res.send({ message: 'success'})
+        })
+    } catch(err) {
+        logger.error({ error: err })
+        return res.status(400).json({ error: err })
+    }
+}
+
+export const deleteUserById = async (req: Request, res: Response): Promise<Response | undefined> => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id)
+        if (!user) res.status(404).send('not found')
+        res.send({ message: 'success' })
+    } catch(err) {
+        logger.error({ error: err })
+        return res.status(400).json({ error: err })
     }
 }
