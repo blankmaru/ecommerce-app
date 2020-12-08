@@ -31,14 +31,14 @@ app.use(function(req, res, next) {
     next();
 });
 
-const client = redis.createClient({
-    host: '127.0.0.1',
-    port: 6379
-})
-export const GET_ASYNC = promisify(client.get).bind(client)
-export const SET_ASYNC = promisify(client.set).bind(client)
+// const client = redis.createClient({
+//     host: '127.0.0.1',
+//     port: 6379
+// })
+// export const GET_ASYNC = promisify(client.get).bind(client)
+// export const SET_ASYNC = promisify(client.set).bind(client)
 
-app.use(responseTime())
+// app.use(responseTime())
 app.use(json())
 app.use(cors())
 app.use(express.urlencoded({ extended: false }))
