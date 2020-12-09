@@ -6,11 +6,8 @@ import passportLocal from 'passport-local'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import mongoose from 'mongoose'
-import {promisify} from 'util'
 
 import responseTime from 'response-time'
-import redis from 'redis'
-const RedisStore = require('connect-redis')(session)
 
 const app = express()
 import * as dotenv from "dotenv";
@@ -19,7 +16,7 @@ dotenv.config();
 import { mongoURI } from './config/keys'
 
 const LocalStrategy = passportLocal.Strategy
-const connect = mongoose.connect(mongoURI, {
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
@@ -31,13 +28,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-
-// const client = redis.createClient({
-//     host: 'redis-do-user-8407271-0.b.db.ondigitalocean.com',
-//     port: 25061
-// })
-// export const GET_ASYNC = promisify(client.get).bind(client)
-// export const SET_ASYNC = promisify(client.set).bind(client)
 
 app.use(responseTime())
 app.use(json())
