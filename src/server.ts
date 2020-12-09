@@ -32,12 +32,12 @@ app.use(function(req, res, next) {
     next();
 });
 
-const client = redis.createClient({
-    host: 'redis-do-user-8407271-0.b.db.ondigitalocean.com',
-    port: 25061
-})
-export const GET_ASYNC = promisify(client.get).bind(client)
-export const SET_ASYNC = promisify(client.set).bind(client)
+// const client = redis.createClient({
+//     host: 'redis-do-user-8407271-0.b.db.ondigitalocean.com',
+//     port: 25061
+// })
+// export const GET_ASYNC = promisify(client.get).bind(client)
+// export const SET_ASYNC = promisify(client.set).bind(client)
 
 app.use(responseTime())
 app.use(json())
@@ -46,7 +46,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(
     session({
-        store: new RedisStore({client: client}),
+        // store: new RedisStore({client: client}),
         secret: process.env.secretcode || 'secret',
         resave: true,
         saveUninitialized: true
