@@ -44,7 +44,7 @@ export const register = async (req: Request, res: Response): Promise<Response | 
                           console.log('Email sent: ' + info.response);
                         }
                     }); 
-                    return res.status(200).json({ message: welcome })
+                    return res.status(200).json({ messageSend: welcome })
                 }
             })
     } catch(err) {
