@@ -1,6 +1,7 @@
 import express from 'express'
 const router = express.Router()
 import passport from 'passport'
+import { cacheMiddleware } from '../caching'
 
 import {
     register,
@@ -19,7 +20,7 @@ router.post('/login', passport.authenticate('local'), login)
 router.get('/user', user)
 router.get('/logOut', logOut)
 
-router.get('/', getUsers)
+router.get('/', cacheMiddleware(30), getUsers)
 router.patch('/:id', updateUserById)
 
 // Admin routes

@@ -16,6 +16,10 @@ const productSchema = new mongoose.Schema({
     img: {
         type: String
     },
+    category: {
+        type: String,
+        required: true
+    },
     postedBy: {
         type: mongoose.Types.ObjectId,
         ref: 'User',

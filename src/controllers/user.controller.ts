@@ -3,10 +3,11 @@ import bcrypt from 'bcryptjs'
 import User from '../models/user.model'
 
 import { logger } from '../log/logger'
+import { sendSms } from '../twilio'
 
 export const register = async (req: Request, res: Response): Promise<Response | undefined> => {
     try {
-        const { username, email, password } = req?.body
+        const { username, email, phone, password } = req?.body
         if (!username || !email || !password || typeof username !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
             return res.status(400).json({ message: 'Invalid values'})
         }
@@ -22,7 +23,9 @@ export const register = async (req: Request, res: Response): Promise<Response | 
                         password: hashedPassword
                     })
                     await newUser.save()
-                    return res.status(200).json({ message: 'User successfully registered!'})
+                    const welcome = `registration success`
+                    sendSms(phone, welcome)
+                    return res.status(200).json({ message: welcome })
                 }
             })
     } catch(err) {

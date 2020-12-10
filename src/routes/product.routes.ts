@@ -13,7 +13,7 @@ import {
 // Product Routes
 router.get('/', cacheMiddleware(30), getAllProducts)
 router.post('/', addProduct)
-router.get('/:id', getProductById)
+router.get('/:id', cacheMiddleware(30), getProductById)
 router.patch('/:id', updateProductById)
 router.delete('/:id', deleteProductById)
 

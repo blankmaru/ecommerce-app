@@ -9,6 +9,9 @@ const userSchema = new mongoose.Schema({
         trim: true,
         unique: true
     },
+    phone: {
+        type: String
+    },
     password: {
         type: String
     },

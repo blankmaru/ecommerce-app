@@ -50,6 +50,8 @@ import { IDatabaseUser } from './interface/UserInterface'
 
 import userRoutes from './routes/user.routes'
 import productRoutes from './routes/product.routes'
+import categoryRoutes from './routes/category.routes'
+import { sendSms } from './twilio'
 
 passport.use('local', new LocalStrategy( async (username: string, password: string, done) => {
     await User.findOne({ username: username }, (err: Error, user: IDatabaseUser) => {
@@ -71,6 +73,7 @@ passport.deserializeUser(async (id: string, done) => {
 
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
+app.use('/api/category', categoryRoutes)
 
 const port = process.env.PORT || 5000
 
