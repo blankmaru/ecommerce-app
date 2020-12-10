@@ -15,6 +15,13 @@ dotenv.config();
 
 import { mongoURI } from './config/keys'
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 const LocalStrategy = passportLocal.Strategy
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
@@ -31,7 +38,7 @@ app.use(function(req, res, next) {
 
 app.use(responseTime())
 app.use(json())
-app.use(cors())
+app.use(cors({credentials: true, origin: 'http://159.65.114.180'}))
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser());
 app.use(
