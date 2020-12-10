@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import Product from '../models/product.model'
 
-// import { GET_ASYNC, SET_ASYNC } from '../server'
 import { logger } from '../log/logger'
 
 export const getAllProducts = async (req: Request, res: Response): Promise<Response | undefined> => {
@@ -44,14 +43,8 @@ export const addProduct = async (req: Request, res: Response): Promise<Response 
 export const getProductById = async (req: Request, res: Response): Promise<Response | undefined> => {
     try {
         const id = req.params.id
-        // const reply = await GET_ASYNC('product')
-        // if (reply) {
-        //     res.send(JSON.parse(reply))
-        //     return
-        // }
 
         await Product.findById(id).then( async (doc) => {
-            // const saveResult = await SET_ASYNC('product', JSON.stringify(doc))
             res.status(200).send(doc)
         })
     } catch(err) {

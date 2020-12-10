@@ -1,4 +1,5 @@
-import express from 'express'
+import express, { NextFunction, Request } from 'express'
+import { cacheMiddleware } from '../caching'
 const router = express.Router()
 
 import {
@@ -10,7 +11,7 @@ import {
 } from '../controllers/product.controller'
 
 // Product Routes
-router.get('/', getAllProducts)
+router.get('/', cacheMiddleware(30), getAllProducts)
 router.post('/', addProduct)
 router.get('/:id', getProductById)
 router.patch('/:id', updateProductById)
