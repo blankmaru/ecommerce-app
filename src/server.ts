@@ -51,7 +51,6 @@ import { IDatabaseUser } from './interface/UserInterface'
 import userRoutes from './routes/user.routes'
 import productRoutes from './routes/product.routes'
 import categoryRoutes from './routes/category.routes'
-import { sendSms } from './twilio'
 
 passport.use('local', new LocalStrategy( async (username: string, password: string, done) => {
     await User.findOne({ username: username }, (err: Error, user: IDatabaseUser) => {

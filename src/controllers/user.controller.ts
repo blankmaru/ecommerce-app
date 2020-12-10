@@ -4,6 +4,8 @@ import User from '../models/user.model'
 
 import { logger } from '../log/logger'
 import { sendSms } from '../twilio'
+import { transporter } from '../nodemailer'
+import { GMAIL_USER } from '../config/keys'
 
 export const register = async (req: Request, res: Response): Promise<Response | undefined> => {
     try {
@@ -11,6 +13,13 @@ export const register = async (req: Request, res: Response): Promise<Response | 
         if (!username || !email || !password || typeof username !== 'string' || typeof email !== 'string' || typeof password !== 'string') {
             return res.status(400).json({ message: 'Invalid values'})
         }
+
+        const mailOptions = {
+            from: GMAIL_USER,
+            to: email,
+            subject: 'Registration',
+            text: 'You was successfully registered!'
+        };
 
         User.findOne({ username: username })
             .then( async (doc) => {
@@ -23,8 +32,18 @@ export const register = async (req: Request, res: Response): Promise<Response | 
                         password: hashedPassword
                     })
                     await newUser.save()
-                    const welcome = `registration success`
-                    sendSms(phone, welcome)
+                    let welcome = ''
+                    if (phone) {
+                        welcome = `registration success`
+                        sendSms(phone, welcome)
+                    }
+                    transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                          console.log(error);
+                        } else {
+                          console.log('Email sent: ' + info.response);
+                        }
+                    }); 
                     return res.status(200).json({ message: welcome })
                 }
             })
