@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String
     },
+    orders: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Product'
+    }],
     isAdmin: {
         type: Boolean,
         default: false
