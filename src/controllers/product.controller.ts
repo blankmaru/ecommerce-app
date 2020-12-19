@@ -18,7 +18,7 @@ export const getAllProducts = async (req: Request, res: Response): Promise<Respo
 
 export const addProduct = async (req: Request, res: Response): Promise<Response | undefined> => {
     try {
-        const { name, desc, price, img, category, postedBy } = req?.body
+        const { name, desc, price, category, postedBy } = req?.body
         if (!name || typeof name !== 'string' ||
             !desc || typeof desc !== 'string' ||
             !price || typeof price !== 'number' ||
@@ -28,7 +28,7 @@ export const addProduct = async (req: Request, res: Response): Promise<Response 
         await Product.findOne({ name: name }).then( async (doc) => {
             if (doc) return res.status(400).send({ message: 'Product already exist' })
             if (!doc) {
-                const newProduct = new Product({ name, desc, price, img, category, postedBy })
+                const newProduct = new Product({ name, desc, price, category, postedBy })
                 await newProduct.save().then( async () => {
                     await Category.findOne({ name: category }).then( async (doc: any) => {
                         await doc.products.push(newProduct)
